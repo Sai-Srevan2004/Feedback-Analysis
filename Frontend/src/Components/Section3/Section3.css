@@ -1,0 +1,109 @@
+.section3
+{
+  background-image: url(https://t3.ftcdn.net/jpg/06/43/58/98/360_F_643589820_FTSW5CafyGSrt2sx5uopyQafBKsbGA4m.jpg);
+    width: 100%;
+    min-height: 103vh;
+    color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.url-input-container {
+    min-height: 100vh; 
+    width: 100%;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;  
+    text-align: center; 
+}
+  
+  .title {
+    font-size: 2.5rem; 
+    margin-bottom: 20px; 
+  }
+  
+  .description {
+    margin: 10px 0; 
+    font-size: 1.2rem; 
+  }
+  
+  .url-input {
+    padding: 17px; 
+    margin: 20px 0;
+    background-color: #444;
+    color: #fff; 
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    outline: none;
+    border: none;
+  }
+
+  .url-input:focus{
+    border-style: solid;
+    border-color: white;
+    border-width: 2px;
+  }
+
+  .url-div{
+    width: 55%;
+  }
+
+  .btn-div
+  {
+    width: 30%;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .btn-div .generate{
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    padding: 10px;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .footer-text {
+    font-size: 1rem; 
+    margin-top: 10px; 
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .title {
+      font-size: 2rem; 
+    }
+    .url-div{
+        width: 90%;
+    }
+
+    .btn-div{
+      width: 70%;
+    }
+  
+    .description,
+    .footer-text {
+      font-size: 1rem; 
+    }
+  }
+
+  @media (min-width:768px) and (max-width: 990px) {
+    .title {
+      font-size: 2rem; 
+    }
+    .url-div{
+        width: 85%;
+    }
+    .btn-div{
+      width: 50%;
+    }
+  
+    .description,
+    .footer-text {
+      font-size: 1rem; 
+    }
+  }
+
