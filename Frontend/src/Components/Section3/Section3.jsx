@@ -10,12 +10,15 @@ const Section3 = ({ setShowReview }) => {
         <h1 className="title">Feedback Analysis</h1>
         <p className="description">Get insights into your product's performance.</p>
         <p className="description">Submit a product URL to start the analysis.</p>
-        <div className="url-div">
-          <input
+        <div className="inputbox">
+          {/* <input
             type="url"
             placeholder="Enter product URL here"
             className="url-input"
-          />
+          /> */}
+          <input required="required" type="url" />
+          <span>Paste your URL here</span>
+          <i></i>
         </div>
         <div className="btn-div">
           <a href="#review">

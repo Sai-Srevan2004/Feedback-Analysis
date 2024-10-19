@@ -87,6 +87,11 @@
     border-radius: 4px;
     cursor: pointer; 
     margin-top: 15px; 
+    font-size: 1.3vmax;
+  }
+
+  .signup-button:hover{
+    opacity: 0;
   }
 
   

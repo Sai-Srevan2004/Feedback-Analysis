@@ -62,9 +62,10 @@
     border-radius: 25px;
   }
   
-  .btn:hover {
-    background-color: #e2e1e0; 
-  }
+  .btn:hover{
+    box-shadow: 0 0 10px rgba(0, 204, 255, 1), 0 0 10px rgba(0, 204, 255, 0.5);
+   transform: scale(1.01);
+}
   
   /* Responsive Styles */
   @media (max-width: 768px) {

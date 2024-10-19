@@ -29,7 +29,7 @@
     font-size: 1.2rem; 
   }
   
-  .url-input {
+  /* .url-input {
     padding: 17px; 
     margin: 20px 0;
     background-color: #444;
@@ -48,7 +48,67 @@
 
   .url-div{
     width: 55%;
-  }
+  } */
+
+/* From Uiverse.io by VijinV */ 
+.inputbox {
+  position: relative;
+  width: 45%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.inputbox input {
+  position: relative;
+  width: 100%;
+  padding: 20px 10px 10px;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: white;
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+
+}
+
+.inputbox span {
+  position: absolute;
+  left: 0;
+  padding: 20px 10px 10px;
+  color: #8f8f8f;
+  letter-spacing: 00.05em;
+  transition: 0.5s;
+  pointer-events: none;
+  bottom: 2px;
+}
+
+.inputbox input:valid ~span,
+.inputbox input:focus ~span {
+  
+  color: #45f3ff;
+  transform: translateX(-10px) translateY(-34px);
+}
+
+.inputbox i {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-color: #45f3ff;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  transition: 0.5s;
+  pointer-events: none;
+  height: 1px;
+}
+
+.inputbox input:valid ~i,
+.inputbox input:focus ~i {
+  height: 44px;
+}
+
 
   .btn-div
   {
@@ -56,6 +116,7 @@
     margin-top: 20px;
     margin-bottom: 30px;
   }
+
 
   .btn-div .generate{
     width: 100%;
@@ -65,6 +126,11 @@
     color: black;
     cursor: pointer;
   }
+
+  .btn-div .generate:hover{
+    box-shadow: 0 0 10px rgba(0, 204, 255, 1), 0 0 10px rgba(0, 204, 255, 0.5);
+   transform: scale(1.01);
+}
   
   .footer-text {
     font-size: 1rem; 

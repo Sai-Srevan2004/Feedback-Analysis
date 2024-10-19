@@ -77,6 +77,11 @@
     cursor: pointer; 
     margin-top: 10px; 
   }
+
+  .submit-button:hover{
+    box-shadow: 0 0 10px rgba(0, 204, 255, 1), 0 0 10px rgba(0, 204, 255, 0.5);
+   transform: scale(1.01);
+}
   
 
   /* Responsive Styles */

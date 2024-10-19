@@ -63,6 +63,12 @@
     gap: 1.7rem;
 }
 
+.second a button:hover{
+    box-shadow: 0 0 10px rgba(0, 204, 255, 1), 0 0 20px rgba(0, 204, 255, 0.5);
+   transform: scale(1.05);
+}
+
+
 .second .button button p,span{
     color: black;
 }

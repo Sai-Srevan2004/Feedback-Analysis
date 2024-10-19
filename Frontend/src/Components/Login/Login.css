@@ -54,8 +54,11 @@
     cursor: pointer;
     margin-top: 35px;
   }
-  
-  
+
+  .login-button:hover{
+    opacity: 0.8;
+  }
+
   .forgot-password {
     display: block;
     text-align: center;
