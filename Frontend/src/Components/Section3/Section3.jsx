@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Section3.css';
+import axios from 'axios'
 
-const Section3 = ({ setShowReview }) => {
+const Section3 = ({ setShowReview,setReviews}) => {
 
+  const [url,setUrl]=useState('');
+
+  console.log(url)
+
+  const reviewsGet=async(url)=>{
+    setShowReview(true)
+    try {
+      const response = await axios.post('http://localhost:7000/api/reviews/scrape-url', { url });
+      setReviews(response.data);
+    } catch (error) {
+      console.error('Error scraping website:', error);
+    }
+  
+  }
 
   return (
     <div className='section3' id='url'>
@@ -16,13 +31,13 @@ const Section3 = ({ setShowReview }) => {
             placeholder="Enter product URL here"
             className="url-input"
           /> */}
-          <input required="required" type="url" />
+          <input value={url} required="required" type="url" onChange={(e)=>setUrl(e.target.value)} />
           <span>Paste your URL here</span>
           <i></i>
         </div>
         <div className="btn-div">
           <a href="#review">
-            <button className='generate' onClick={() => setShowReview(true)}>
+            <button className='generate' onClick={()=>reviewsGet(url)}>
               Generate Summary
             </button>
           </a>

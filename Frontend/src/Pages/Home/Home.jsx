@@ -6,7 +6,7 @@ import Section0 from '../../Components/Section0/Section0'
 import Section1 from '../../Components/Section1/Section1'
 import Section2 from '../../Components/Section2/Section2'
 import Section3 from '../../Components/Section3/Section3'
-import Section4 from '../../Components/Section4/Section4'
+// import Section4 from '../../Components/Section4/Section4'
 import Section5 from '../../Components/Section5/Section5'
 import Section6 from '../../Components/Section6/Section6'
 import Section7 from '../../Components/Section7/Section7'
@@ -15,6 +15,7 @@ import Login from '../../Components/Login/Login'
 import Signup from '../../Components/Signup/Signup'
 import { useOutletContext } from 'react-router-dom';
 import Dropnav from '../../Components/Dropnav/Dropnav'
+import Extra from '../../Extra'
 
 
 const Home = () => {
@@ -25,6 +26,8 @@ const Home = () => {
     const [showLogin,setShowLogin]=useState(false)
   const [showSignup,setShowSignup]=useState(false)
   const [showDnav,setShowDnav]=useState(false)
+  const [reviews,setReviews]=useState('')
+
 
 
     return (
@@ -41,8 +44,9 @@ const Home = () => {
                 <Section0></Section0>
 
                 <Section2></Section2>
-                <Section3 setShowReview={setShowReview} ></Section3>
-                <Section4 showReview={showReview}></Section4>
+                <Section3 setShowReview={setShowReview} setReviews={setReviews}></Section3>
+                {/* <Section4 showReview={showReview}></Section4> */}
+                <Extra showReview={showReview} reviews={reviews}></Extra>
                 <Section5></Section5>
                 <Section6></Section6>
                 <Section7></Section7>
