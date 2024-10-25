@@ -2,19 +2,27 @@ import React, { useState } from 'react';
 import './Section3.css';
 import axios from 'axios'
 
-const Section3 = ({ setShowReview,setReviews}) => {
+const Section3 = ({ setShowSection4,setReviews}) => {
 
   const [url,setUrl]=useState('');
 
   console.log(url)
 
-  const reviewsGet=async(url)=>{
-    setShowReview(true)
+  const reviewsGet=async()=>{
+     
+    if (!url) {
+      alert('URL is required');
+      return; // This prevents further execution if URL is not provided
+    } else {
+      setShowSection4(true); // This will run if the URL is provided
+    }
+
     try {
       const response = await axios.post('http://localhost:7000/api/reviews/scrape-url', { url });
       setReviews(response.data);
+      console.log("response:",response.data)
     } catch (error) {
-      console.error('Error scraping website:', error);
+      console.log('Error scraping website:', error.response.data.error);
     }
   
   }
@@ -37,7 +45,7 @@ const Section3 = ({ setShowReview,setReviews}) => {
         </div>
         <div className="btn-div">
           <a href="#review">
-            <button className='generate' onClick={()=>reviewsGet(url)}>
+            <button className='generate' onClick={reviewsGet}>
               Generate Summary
             </button>
           </a>

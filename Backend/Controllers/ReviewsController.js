@@ -11,7 +11,7 @@ const getReviews=async (req, res) => {
 
     try {
         // Send the URL to Flask for scraping
-        const flaskResponse = await axios.post('http://192.168.231.237:5000/reviews', { url });
+        const flaskResponse = await axios.post('http://192.168.191.237:5000/reviews', { url });
 
         console.log(flaskResponse)
 
