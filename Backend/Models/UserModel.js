@@ -14,10 +14,18 @@ const UserSchema=new mongoose.Schema({
         required:true
      },
      role:{
-        enum:['seller','buyer','admin'],
+        enum:['Seller','Buyer','Admin'],
         type:String,
         required:true
-     }
+     },
+     image:{
+      type:String
+     },
+     reviews:[
+      {
+         type:mongoose.Schema.Types.ObjectId
+      }
+     ]
 })
 
 module.exports=mongoose.model('User',UserSchema)

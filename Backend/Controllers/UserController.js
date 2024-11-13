@@ -1,67 +1,242 @@
-const User=require('../Models/UserModel')
+const User = require("../Models/UserModel")
+const Otp = require("../Models/OtpModel")
+const otpGenerator = require("otp-generator")
 const bcrypt=require('bcrypt')
+const jwt=require('jsonwebtoken')
 
-const SignUpController=async(req,res)=>{
+//otp send function
+
+const sendOtp = async (req, res) => {
     try {
-        const {username,email,password,cpassword,role}=req.body
+        //fetch email from req.body
+        const { email } = req.body
 
-        const exist=await User.findOne({email})
-
-        if(exist)
-        {
+        //check if email is not empty
+        if (!email) {
             return res.json({
-                success:false,
-                message:"Email already exists!",
+                success: false,
+                message: "Email is required!"
             })
         }
 
-        if(password!==cpassword)
-        {
+        //check if user already exists
+        const checkUserPresent = await User.findOne({ email })
+
+        //if user already exists then return res
+        if (checkUserPresent) {
             return res.json({
-                message:"Passwords do not match"
+                success: false,
+                message: "User already exists!"
             })
         }
-        let hashedPassword
-        try {
-            hashedPassword=await bcrypt.hash(password,10)
 
-        } catch (error) {
-            console.log(error)
-            return res.json({
-                message:"Internal Server Error",
-                data:"Could not hash the password!"
-             })
-        }
-
-        const createUser = await User.create({
-            username,email,password:hashedPassword,role
+        //generate Otp
+        var otp = otpGenerator.generate(6, {
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets: false,
+            specialChars: false
         })
-    
-        if(!createUser)
-        {
-            return res.json({
-                success:false,
-                message:"User could not create!"
-            }) 
+
+        //const unique otp or not
+        var result = await Otp.findOne({ otp: otp })
+
+        while (result) {
+            otp = otpGenerator.generate(6, {
+                upperCaseAlphabets: false,
+                lowerCaseAlphabets: false,
+                specialChars: false
+            }
+            )
+            result = await Otp.findOne({ otp: otp })
         }
 
+
+        const otpPayload = {
+            otp: otp,
+            email: email
+        }
+
+        //create entry in db of otp
+
+        const OtpBody = await Otp.create(otpPayload)
+
+        console.log(OtpBody)
+
+
+        //send response
 
         return res.json({
-            success:true,
-            data:createUser,
-            message:"Registration Successfull!"
+            success: true,
+            message: "Otp sent Successfully!"
         })
-
     } catch (error) {
-        console.log(error)
+
         return res.json({
-            success:false,
-            data:"Internal Server Error!",
-            message:"Registration Failed!"
+            success: false,
+            message: "somethng wrong while sending Otp!"
         })
     }
 }
 
 
-module.exports={SignUpController}
+//sign up
+const signUp = async (req, res) => {
+    try {
+        //fetch data from req.body
+        const { username, email, password, cpassword, role, otp } = req.body
+       
+        console.log(username,email,password,cpassword,otp)
+        //validate data
+        if (!username || !email || !password || !cpassword || !otp) {
+            return res.json({
+                success: false,
+                message: "All fileds required!"
+            })
+        }
 
+
+        //2 passwords match
+        if (password !== cpassword) {
+            return res.josn({
+                success: false,
+                message: "password and confirm password do not match"
+            })
+        }
+
+        //check user already exists
+        const existingUser = await User.findOne({ email })
+
+        if (existingUser) {
+            return res.json({
+                success: false,
+                message: "User already exists!"
+            })
+        }
+
+        //find most recent otp from db
+        const recentOtp=await Otp.findOne({email}).sort({createdAt:-1}).limit(1)
+        
+        //validate otp
+        if(!recentOtp)
+        {
+            return res.json({
+                success:false,
+                message:"Otp not Found! "
+            })
+        }
+
+        if(otp!==recentOtp.otp)
+        {   console.log("otp:",otp)
+            console.log("recentotp:",recentOtp.otp)
+            return res.json({
+                success:false,
+                message:"Invalid Otp!"
+            })
+        }
+       
+        //hash password
+
+        const hashedPassword =await bcrypt.hash(password,10)
+
+
+        const user=await User.create({
+           username,
+            email,
+            password:hashedPassword,
+            role,
+           image:`https://api.dicebear.com/5.x/initials/svg?seed=${username}`
+        })
+
+        //return res
+      return res.json({
+        success:true,
+        message:"User Registration Successfull!",
+        data:user
+      })
+
+    } catch (error) {
+        console.log(error.message)
+     return res.json({
+        success:false,
+        message:"User Registration Failed! please try again later"
+     })
+    }
+}
+
+//login
+
+const login = async (req, res) => {
+     try {
+        //get data from req.body
+        const {email,password}=req.body
+
+        //validate
+        if(!email || !password)
+        {
+            return res.json({
+                success:false,
+                message:"User not exists!"
+            })
+        }
+
+        //check if user not actually exists but trying to login
+        const isExist=await User.findOne({email})
+
+        if(!isExist)
+        {
+            return res.json({
+                success:false,
+                message:"User do not exist!"
+            })
+        }
+
+        //password check
+        if(!await bcrypt.compare(password,isExist.password))
+            {
+                return res.json({
+                    success:false,
+                    message:"Password do not match!"
+                })
+            }
+
+
+        const payLoad={
+            email:isExist.email,
+            id:isExist._id,
+            role:isExist.role
+        }
+
+        const token=jwt.sign(payLoad,process.env.JWT_SECRET,{
+            expiresIn:'2h'
+        })
+       
+        //create cookie
+        const options={
+            expires:new Date(Date.now()+3*24*60*60*1000),
+            httpOnly:true
+        }
+
+        //undeifing password
+        isExist.password=undefined
+
+        //if all correct generate jwt token
+        return res.cookie("token",token,options).json({
+            success:true,
+            message:"User Logged In successfully!",
+            data:isExist,
+            token:token
+        })
+
+
+     } catch (error) {
+        return res.json({
+            success:false,
+            message:"Login failed! please try Again later!"
+        })
+     }
+}
+
+
+
+
+module.exports = { sendOtp, signUp, login}

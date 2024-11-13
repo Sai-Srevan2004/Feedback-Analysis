@@ -1,14 +1,18 @@
 const express=require('express')
 const router=express.Router()
 
+
 //importing signup controller
 
-const {SignUpController} =require('../Controllers/UserController')
+const {sendOtp, signUp, login} =require('../Controllers/UserController')
+
 
 
 //Sign Up Route
 
-router.post('/signup',SignUpController)
+router.post('/signup',signUp)
+router.post('/sendotp',sendOtp)
+router.post('/login',login)
 
 
 

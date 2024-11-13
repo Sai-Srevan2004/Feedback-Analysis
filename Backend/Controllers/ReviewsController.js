@@ -6,7 +6,7 @@ const getReviews=async (req, res) => {
     console.log(req.body)
 
     if (!url) {
-        return res.status(400).send({ error: 'URL is required' });
+        return res.send({ error: 'URL is required' });
     }
 
     try {
@@ -22,7 +22,7 @@ const getReviews=async (req, res) => {
         res.send(scrapedData);
     } catch (error) {
         console.error("Error scraping URL:", error);
-        res.status(500).send({ error: 'Failed to scrape data' });
+        res.send({ error: 'Failed to scrape data' });
     }
 };
 

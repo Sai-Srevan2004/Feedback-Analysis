@@ -60,7 +60,7 @@ const Home = () => {
 
                 {
                      showSignup && <div className="login">
-                     <Signup setShowSignup={setShowSignup}></Signup>
+                     <Signup setShowLogin={setShowLogin} setShowSignup={setShowSignup}></Signup>
                     </div>
                 }
             
