@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toast';
 
 const OtpSubmit = ({ data,setOtpCard,setShowSignup,setShowLogin}) => {
   const [otp, setOtp] = useState('');
@@ -12,6 +13,13 @@ const OtpSubmit = ({ data,setOtpCard,setShowSignup,setShowLogin}) => {
         otp       // Add OTP to the request body
       });
       console.log('OTP verification successful:', response.data);
+      if(response.data.success)
+      {
+        toast.success(response.data.message)
+      }
+      else{
+        toast.error(response.data.message)
+      }
       setOtpCard(false)
       setShowSignup(false)
       setShowLogin(false)

@@ -4,6 +4,7 @@ import { RxCross1 } from 'react-icons/rx';
 import { useForm } from "react-hook-form";
 import OtpSubmit from '../Otp/Otp';
 import axios from 'axios';
+import { toast } from 'react-toast'
 
 const Signup = ({ setShowSignup,setShowLogin }) => {
     const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm();
@@ -21,8 +22,15 @@ const Signup = ({ setShowSignup,setShowLogin }) => {
             });
             setOtpCard(true);
             console.log(response);
+            if(response.data.success)
+            {
+              toast.success(response.data.message)
+            }
+            else{
+                toast.error(response.data.message)
+            }
         } catch (error) {
-            alert("Could not send OTP");
+            toast("could not send otp!")
             console.error(error);
         }
     };
