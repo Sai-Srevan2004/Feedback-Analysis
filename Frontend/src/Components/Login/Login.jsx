@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';  // Import axios
 import './Login.css';
 import { RxCross1 } from "react-icons/rx";
-import {toast} from 'react-toast'
+import {toast} from 'react-hot-toast'
+import {useDispatch} from 'react-redux'
+import { setToken } from '../../Slices/authSlice';
 const Login = ({ setShowLogin, setShowSignup }) => {
   // State for form inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  //usedispatch
+  const dispatch=useDispatch() 
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -24,6 +29,11 @@ const Login = ({ setShowLogin, setShowSignup }) => {
       if(response.data.success)
       {
         toast.success(response.data.message)
+        console.log(response.data)
+        dispatch(setToken(response.data.token))
+        localStorage.setItem('token', JSON.stringify(response.data.token));
+
+
       }
       else{
         toast.error(response.data.message)

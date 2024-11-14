@@ -1,30 +1,48 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toast';
+import { toast } from 'react-hot-toast';
 
-const OtpSubmit = ({ data,setOtpCard,setShowSignup,setShowLogin}) => {
+const OtpSubmit = ({ data, setOtpCard, setShowSignup, setShowLogin }) => {
   const [otp, setOtp] = useState('');
+  const [isResending, setIsResending] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:7000/api/users/signup', {
-        ...data,  // Spread the data object so that its fields are sent individually
-        otp       // Add OTP to the request body
+        ...data,
+        otp
       });
       console.log('OTP verification successful:', response.data);
-      if(response.data.success)
-      {
-        toast.success(response.data.message)
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setOtpCard(false);
+        setShowSignup(false);
+        setShowLogin(false);
+      } else {
+        toast.error(response.data.message);
       }
-      else{
-        toast.error(response.data.message)
-      }
-      setOtpCard(false)
-      setShowSignup(false)
-      setShowLogin(false)
     } catch (error) {
       console.error('Error verifying OTP:', error);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setIsResending(true);
+    try {
+      const response = await axios.post('http://localhost:7000/api/users/sendotp', {
+        email: data.email
+      });
+      if (response.data.success) {
+        toast.success("OTP resent successfully");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error resending OTP:', error);
+      toast.error("Failed to resend OTP");
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -40,6 +58,14 @@ const OtpSubmit = ({ data,setOtpCard,setShowSignup,setShowLogin}) => {
       />
       <button onClick={handleSubmit} style={{ backgroundColor: 'aqua', padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
         Submit OTP
+      </button>
+
+      <button
+        onClick={handleResendOtp}
+        style={{ backgroundColor: 'aqua', padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
+        disabled={isResending}
+      >
+        {isResending ? "Resending OTP..." : "Resend OTP"}
       </button>
     </div>
   );
