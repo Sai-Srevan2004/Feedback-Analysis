@@ -26,6 +26,11 @@ const Section4 = ({ reviews }) => {
                                             <span style={{ color: '#01b5b5', fontStyle: 'bold', fontSize: '1.7vmax' }}>Summary: </span>
                                             {reviews.summary}
                                         </p>
+                                        <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'5px'}}>
+                                            keywords: {reviews.keywords.map((z)=>{
+                                                return <p>{`${z}, `}</p>
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

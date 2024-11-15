@@ -22,10 +22,11 @@
   
   .profile-info {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 3rem;
     width: 100%;
   }
   
@@ -35,7 +36,11 @@
     padding: 20px;
     width: 300px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
   }
   
   .profile-section h2 {
@@ -50,6 +55,14 @@
     border-radius: 5px;
     cursor: pointer;
     margin: 5px 0;
+  }
+
+  .profile-first
+  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
   }
   
   /* Responsive Design */

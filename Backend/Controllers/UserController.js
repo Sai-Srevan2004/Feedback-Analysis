@@ -237,6 +237,33 @@ const login = async (req, res) => {
 }
 
 
+const getAllUserDetails = async (req, res) => {
+    console.log("user",req.user)
+
+    try {
+        //get id
+        const id = req.user.id;
 
 
-module.exports = { sendOtp, signUp, login}
+        //validation and get user details
+        const userDetails = await User.findById(id)
+        //return response
+        return res.json({
+            success:true,
+            message:'User Data Fetched Successfully',
+            userDetails
+        });
+       
+    }
+    catch(error) {
+        return res.json({
+            success:false,
+            message:error.message,
+        });
+    }
+}
+
+
+
+
+module.exports = { sendOtp, signUp, login,getAllUserDetails}
