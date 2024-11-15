@@ -32,15 +32,12 @@ const Login = ({ setShowLogin, setShowSignup }) => {
         console.log(response.data)
         dispatch(setToken(response.data.token))
         localStorage.setItem('token', JSON.stringify(response.data.token));
-
+        setShowLogin(false);
 
       }
       else{
         toast.error(response.data.message)
       }
-
-      // Optionally, close the login form after successful login
-      setShowLogin(false);
 
     } catch (error) {
       console.error('Login failed:', error);

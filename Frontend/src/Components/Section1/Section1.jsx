@@ -7,7 +7,7 @@ const Section1 = () => {
             <div className="landing-page">
                 <div className="first">
                     <h1>Feedback Analysis</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus recusandae consequatur? Ipsum provident cumque deleniti illo culpa.</p>
+                    <p>Hey there! Whether you're a product seller looking to improve your offerings or a product buyer wanting to make informed purchasing decisions, our Feedback Analysis Tool is here to help!</p>
                 </div>
 
                 {/* <div className="landing-img">
