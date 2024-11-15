@@ -21,6 +21,14 @@ const HistorySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  pros:{
+    type:[String],
+    required:true
+  },
+  cons:{
+    type:[String],
+    required:true
+  }
 }, {
   timestamps: true,  // Automatically adds `createdAt` and `updatedAt` fields
 });

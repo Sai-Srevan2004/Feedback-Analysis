@@ -69,7 +69,7 @@ const Profile = () => {
           alt="Profile"
           className="profile-image"
         />
-        <h1>{userDetails.name}</h1>
+        <h1>{userDetails.username}</h1>
       </div>
       <div className="profile-info">
         <div className="profile-first">
