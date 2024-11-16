@@ -82,86 +82,75 @@ const sendOtp = async (req, res) => {
 //sign up
 const signUp = async (req, res) => {
     try {
-        //fetch data from req.body
-        const { username, email, password, cpassword, role, otp } = req.body
+        // Fetch data from req.body
+        const { username, email, password, cpassword, role, otp } = req.body;
        
-        console.log(username,email,password,cpassword,otp)
-        //validate data
+        console.log(username, email, password, cpassword, otp);
+        
+        // Validate data
         if (!username || !email || !password || !cpassword || !otp) {
             return res.json({
                 success: false,
-                message: "All fileds required!"
-            })
+                message: "All fields are required!"
+            });
         }
 
-
-        //2 passwords match
+        // Check if passwords match
         if (password !== cpassword) {
-            return res.josn({
-                success: false,
-                message: "password and confirm password do not match"
-            })
-        }
-
-        //check user already exists
-        const existingUser = await User.findOne({ email })
-
-        if (existingUser) {
             return res.json({
                 success: false,
-                message: "User already exists!"
-            })
+                message: "Password and confirm password do not match!"
+            });
         }
 
-        //find most recent otp from db
-        const recentOtp=await Otp.findOne({email}).sort({createdAt:-1}).limit(1)
+        // Find most recent OTP from the database
+        const recentOtp = await Otp.findOne({ email }).sort({ createdAt: -1 }).limit(1);
         
-        //validate otp
-        if(!recentOtp)
-        {
+        // Validate OTP
+        if (!recentOtp) {
             return res.json({
-                success:false,
-                message:"Otp not Found! "
-            })
+                success: false,
+                message: "OTP not found!"
+            });
         }
 
-        if(otp!==recentOtp.otp)
-        {   console.log("otp:",otp)
-            console.log("recentotp:",recentOtp.otp)
+        if (otp !== recentOtp.otp) {
+            console.log("otp:", otp);
+            console.log("recentOtp:", recentOtp.otp);
             return res.json({
-                success:false,
-                message:"Invalid Otp!"
-            })
+                success: false,
+                message: "Invalid OTP!"
+            });
         }
-       
-        //hash password
 
-        const hashedPassword =await bcrypt.hash(password,10)
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-
-        const user=await User.create({
-           username,
+        // Create the user
+        const user = await User.create({
+            username,
             email,
-            password:hashedPassword,
+            password: hashedPassword,
             role,
-           image:`https://api.dicebear.com/5.x/initials/svg?seed=${username}`
-        })
+            image: `https://api.dicebear.com/5.x/initials/svg?seed=${username}`
+        });
 
-        //return res
-      return res.json({
-        success:true,
-        message:"User Registration Successfull!",
-        data:user
-      })
+        // Return response
+        return res.json({
+            success: true,
+            message: "User registration successful!",
+            data: user
+        });
 
     } catch (error) {
-        console.log(error.message)
-     return res.json({
-        success:false,
-        message:"User Registration Failed! please try again later"
-     })
+        console.log(error);
+        return res.json({
+            success: false,
+            message: "User registration failed! Please try again later."
+        });
     }
-}
+};
+
 
 //login
 
@@ -264,6 +253,37 @@ const getAllUserDetails = async (req, res) => {
 }
 
 
+const getUserHistory = async (req, res) => {
+ 
+    try {     
+      const id=req.user.id
+  
+      // Check if the history exists for the provided URL
+      const existingUser= await User.findById(id).populate('reviews').exec();
+  
+  
+      if (!existingUser) {
+        return res.json({
+          success: false,
+          message: 'No user found!',
+        });
+      }
+  
+      return res.json({
+        success: true,
+        message: 'History of user fetched successfully!',
+        data: existingUser.reviews  // Send the found history data
+      });
+    } catch (error) {
+      console.error('Error fetching history:', error);
+      return res.json({
+        success: false,
+        message: 'Something went wrong while fetching the history!',
+      });
+    }
+  };
+  
 
 
-module.exports = { sendOtp, signUp, login,getAllUserDetails}
+
+module.exports = { sendOtp, signUp, login,getAllUserDetails,getUserHistory}

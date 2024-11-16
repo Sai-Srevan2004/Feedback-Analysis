@@ -5,8 +5,8 @@ const {auth}=require('../Middleware/Auth')
 
 //importing signup controller
 
-const {sendOtp, signUp, login,getAllUserDetails} =require('../Controllers/UserController')
-const { storeHistory } = require('../Controllers/HistoryController')
+const {sendOtp, signUp, login,getAllUserDetails,getUserHistory} =require('../Controllers/UserController')
+const { storeHistory ,getHistory} = require('../Controllers/HistoryController')
 
 
 
@@ -17,6 +17,9 @@ router.post('/sendotp',sendOtp)
 router.post('/login',login)
 router.get('/profile',auth,getAllUserDetails)
 router.post('/history',auth,storeHistory)
+router.post('/gethistory',auth,getHistory)
+router.get('/getuserhistory',auth,getUserHistory)
+
 
 
 

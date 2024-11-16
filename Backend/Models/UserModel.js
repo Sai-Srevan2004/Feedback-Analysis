@@ -23,9 +23,12 @@ const UserSchema=new mongoose.Schema({
      },
      reviews:[
       {
-         type:mongoose.Schema.Types.ObjectId
+         type:mongoose.Schema.Types.ObjectId,
+         ref:'History'
       }
      ]
+},{
+   timestamps:true
 })
 
 module.exports=mongoose.model('User',UserSchema)

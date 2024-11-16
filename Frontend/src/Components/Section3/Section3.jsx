@@ -2,32 +2,64 @@ import React, { useEffect, useState } from 'react';
 import './Section3.css';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const Section3 = ({ setShowSection4, setReviews }) => {
   const [url, setUrl] = useState('');
   const [triggerApi, setTriggerApi] = useState(false);
-  const navigate = useNavigate();  // Initialize navigate
+  const navigate = useNavigate();
 
-  // Function to fetch reviews
+  // Function to fetch reviews from the database or API
   const fetchReviews = async () => {
-    if (triggerApi && url) {  // Only trigger the API call when both triggerApi and URL are set
+    if (triggerApi && url) {
       try {
-        const response = await axios.post('http://localhost:7000/api/reviews/scrape-url', { url });
-        if (response.data.success) {
+        const storedToken = JSON.parse(localStorage.getItem('token')); // Removes extra quotes
+
+        if (!storedToken) {
+          throw new Error("Authorization token is missing.");
+        }
+
+        // Check if the reviews for the URL are already available in the database
+        const response = await axios.post(
+          'http://localhost:7000/api/users/gethistory',
+          { url }, // Sending URL in the request body
+          { headers: { Authorization: `Bearer ${storedToken}` } }
+        );
+        
+         console.log("db:",response.data)
+        if (response.data.success && response.data.data) {
+          // If reviews are found in the database, show them
           setReviews(response.data.data);
-          toast.success('Summary generated successfully!');
+          toast.success('Reviews fetched from database!');
         } else {
-          toast.error('Something went wrong generating the summary!');
-          setShowSection4(false);
+          // If no reviews in the database, trigger API call
+          const apiResponse = await axios.post(
+            'http://localhost:7000/api/reviews/scrape-url',
+            { url },
+            { headers: { Authorization: `Bearer ${storedToken}` } }
+          );
+
+          if (apiResponse.data.success) {
+            // Store the fetched reviews in the database
+            await axios.post(
+              'http://localhost:7000/api/users/history',
+              { url, reviews: apiResponse.data.data },
+              { headers: { Authorization: `Bearer ${storedToken}` } }
+            );
+            setReviews(apiResponse.data.data);
+            toast.success('Summary generated successfully!');
+          } else {
+            throw new Error('Something went wrong generating the summary!');
+          }
         }
       } catch (error) {
-        console.log('Error scraping website:', error.response?.data?.error);
-        toast.error('Error scraping the website!');
+        const errorMsg = error.response?.data?.error || error.message || 'Error fetching reviews!';
+        console.error('Error fetching reviews:', errorMsg);
+        toast.error(errorMsg);
         setShowSection4(false);
       } finally {
-        setTriggerApi(false); // Reset API trigger after the call
-       setUrl('')
+        setTriggerApi(false);
+        setUrl('');
       }
     }
   };
@@ -35,33 +67,30 @@ const Section3 = ({ setShowSection4, setReviews }) => {
   // This useEffect will call the API whenever the URL changes after the button is clicked
   useEffect(() => {
     fetchReviews();
-  }, [url, triggerApi, setReviews, setShowSection4]);  // Effect depends on both URL and triggerApi but setReviews, setShowSection4 are optional dependencies
+  }, [triggerApi]);
 
   // This function is called when the user clicks the "Generate Summary" button
   const reviewsGet = () => {
     const token = localStorage.getItem('token'); // Check if token exists
 
     if (!token) {
-      toast("Please Login to proceed!", {
-        icon: '⚠️'
-      });
-      navigate('/');  // Redirect to login page
-      return; // Prevent further execution if the user is not logged in
+      toast('Please Login to proceed!', { icon: '⚠️' });
+      navigate('/'); // Redirect to login page
+      return;
     }
 
     if (!url) {
-      toast("URL is required!", {
-        icon: '⚠️'
-      });
-      return; // Prevents further execution if the URL is not provided
+      toast('URL is required!', { icon: '⚠️' });
+      return;
     }
 
-    setShowSection4(true);  // Show section 4 before starting the API call
-    setTriggerApi(true);    // Set triggerApi to true to trigger the API call in useEffect
+    setReviews(''); // Clear previous reviews
+    setShowSection4(true); // Show section 4 before starting the API call
+    setTriggerApi(true); // Set triggerApi to true to trigger the API call in useEffect
   };
 
   return (
-    <div className='section3' id='url'>
+    <div className="section3" id="url">
       <div className="url-input-container">
         <h1 className="title">Feedback Analysis</h1>
         <p className="description">Get insights into your product's performance.</p>
@@ -69,7 +98,7 @@ const Section3 = ({ setShowSection4, setReviews }) => {
         <div className="inputbox">
           <input
             value={url}
-            required="required"
+            required
             type="url"
             onChange={(e) => setUrl(e.target.value)} // URL change handler
           />
@@ -77,7 +106,7 @@ const Section3 = ({ setShowSection4, setReviews }) => {
           <i></i>
         </div>
         <div className="btn-div">
-          <a href="#review">
+        <a href="#review">
             <button className='generate' onClick={reviewsGet} >
               Generate Summary
             </button>

@@ -5,7 +5,7 @@ const HistorySchema = new mongoose.Schema({
     type: String,
     required: true, 
   },
-  email: {
+  url: {
     type: String,
     required: true,
   },
@@ -21,19 +21,20 @@ const HistorySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  pros:{
-    type:[String],
-    required:true
+  pros: {
+    type: [String],
+    required: true,
   },
-  cons:{
-    type:[String],
-    required:true
+  cons: {
+    type: [String],
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 30 * 24 * 60 * 60 // Expire after 30 days
   }
-}, {
-  timestamps: true,  // Automatically adds `createdAt` and `updatedAt` fields
 });
 
 // Create and export the model
 module.exports = mongoose.model('History', HistorySchema);
-
-

@@ -81,12 +81,12 @@ const Profile = () => {
           <div className="profile-section">
             <h2>Feedback Stats</h2>
             <p>Total Feedbacks generated: {userDetails.reviews.length}</p>
-            <p>Positive Feedback: {userDetails.positiveFeedbackPercentage || 0}%</p>
+            <p>Date Joined: {userDetails.createdAt.split('T')[0].split('-').reverse().join('-')}</p>
           </div>
         </div>
-        <div className="profile-section">
+       
           <button onClick={handleLogout}>Logout</button> {/* Logout Button */}
-        </div>
+        
       </div>
     </div>
   );

@@ -21,15 +21,13 @@ const Section4 = ({ reviews }) => {
                                     <div className="summary-review">
                                         <h2>Summary of Reviews</h2>
                                         {/* <p>Average Rating: 4.5/5</p> */}
-                                        <p>Total Reviews: {reviews.get_reviews.rating.length}</p>
+                                        <p>Total Reviews: {0}</p>
                                         <p>
                                             <span style={{ color: '#01b5b5', fontStyle: 'bold', fontSize: '1.7vmax' }}>Summary: </span>
                                             {reviews.summary}
                                         </p>
                                         <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'5px'}}>
-                                            keywords: {reviews.keywords.map((z)=>{
-                                                return <p>{`${z}, `}</p>
-                                            })}
+                                            keywords: {2}
                                         </div>
                                     </div>
                                 </div>
@@ -39,15 +37,15 @@ const Section4 = ({ reviews }) => {
                                 <div className="summary-grid">
                                     <div className="summary-item positive">
                                         <h3>Positives</h3>
-                                        <p>{reviews.sentiments.Positive} Positive Feedback</p>
+                                        <p>{reviews.positive} Positive Feedback</p>
                                     </div>
                                     <div className="summary-item negative">
                                         <h3>Negatives</h3>
-                                        <p>{reviews.sentiments.Negative} Negative Feedback</p>
+                                        <p>{reviews.negative} Negative Feedback</p>
                                     </div>
                                     <div className="summary-item overall">
                                         <h3>Overall</h3>
-                                        <p>{reviews.sentiments.Nuetral} Neutral Feedback</p>
+                                        <p>{reviews.neutral} Neutral Feedback</p>
                                     </div>
                                 </div>
                             </div>

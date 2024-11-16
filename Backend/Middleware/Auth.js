@@ -7,6 +7,7 @@ dotenv.config();
 
 // This function is used as middleware to authenticate user requests
 const auth = async (req, res, next) => {
+
 	console.log(req.header("Authorization"))
 	try {
 		// Extracting JWT from request cookies, body or header
@@ -27,7 +28,7 @@ const auth = async (req, res, next) => {
 
 		} catch (error) {
 			// If JWT verification fails, return 401 Unauthorized response
-			return res.json({ success: false, message: "token is invalid" });
+			return res.json({ success: false, message: "token is invalid",error:error.message });
 		}
 
 		// If JWT is valid, move on to the next middleware or request handler
