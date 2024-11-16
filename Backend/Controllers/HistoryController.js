@@ -6,7 +6,7 @@ const storeHistory = async (req, res) => {
     try {
       const id = req.user.id; // Assuming the user is authenticated and the ID is attached to the request
       const { url, reviews, pros, cons } = req.body; // Extract URL, reviews, pros, and cons from the request body
-  
+       console.log(req.body)
       // Validation: Ensure both URL and reviews are provided
       if (!url || !reviews) {
         return res.json({

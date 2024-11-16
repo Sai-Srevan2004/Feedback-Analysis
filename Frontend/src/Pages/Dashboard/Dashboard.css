@@ -9,6 +9,7 @@
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   flex-wrap: wrap; /* Make it responsive */
+  min-height: 100vh;
 }
 
 /* Left Div */
@@ -38,7 +39,8 @@
   padding: 20px;
   border-radius: 8px;
   min-width: 300px; /* Ensures responsiveness */
-  min-height: 77vh;
+  max-height: 100vh;
+  overflow-y: scroll;
 }
 
 /* History List */
@@ -47,10 +49,27 @@
   padding: 0;
   margin-top: 10px;
   color: #ddd; /* Light gray text */
+  
 }
 
 .history-list li {
   margin-bottom: 8px;
+}
+
+.history-uls
+{
+  background-color: black;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 5px;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.history-uls button{
+  font-size: 16px;
 }
 
 /* Media Queries for Responsiveness */

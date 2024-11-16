@@ -127,6 +127,10 @@
     cursor: pointer;
   }
 
+  .btn-div .generate-two{
+    opacity: 0.3;
+  }
+
   .btn-div .generate:hover{
     box-shadow: 0 0 10px rgba(0, 204, 255, 1), 0 0 10px rgba(0, 204, 255, 0.5);
    transform: scale(1.01);

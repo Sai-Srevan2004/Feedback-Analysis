@@ -18,7 +18,7 @@ router.post('/login',login)
 router.get('/profile',auth,getAllUserDetails)
 router.post('/history',auth,storeHistory)
 router.post('/gethistory',auth,getHistory)
-router.get('/getuserhistory',auth,getUserHistory)
+router.get('/getuserhistory/:id',auth,getUserHistory)
 
 
 

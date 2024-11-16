@@ -56,6 +56,7 @@ const Section3 = ({ setShowSection4, setReviews }) => {
         const errorMsg = error.response?.data?.error || error.message || 'Error fetching reviews!';
         console.error('Error fetching reviews:', errorMsg);
         toast.error(errorMsg);
+        window.location.hash = "#url"
         setShowSection4(false);
       } finally {
         setTriggerApi(false);
@@ -107,7 +108,7 @@ const Section3 = ({ setShowSection4, setReviews }) => {
         </div>
         <div className="btn-div">
         <a href="#review">
-            <button className='generate' onClick={reviewsGet} >
+            <button className={`${triggerApi?'generate-two':'generate'}`} onClick={reviewsGet} disabled={triggerApi} >
               Generate Summary
             </button>
           </a>

@@ -1,6 +1,7 @@
 const User = require("../Models/UserModel")
 const Otp = require("../Models/OtpModel")
 const otpGenerator = require("otp-generator")
+const History =require('../Models/HistoryModel')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 
@@ -254,28 +255,29 @@ const getAllUserDetails = async (req, res) => {
 
 
 const getUserHistory = async (req, res) => {
- 
-    try {     
-      const id=req.user.id
+    console.log("params:", req.params.id); // Log the entire params object
+  
+    try {
+      const id = req.params.id;
+
   
       // Check if the history exists for the provided URL
-      const existingUser= await User.findById(id).populate('reviews').exec();
+      const existing = await History.findById(id);
   
-  
-      if (!existingUser) {
+      if (!existing) {
         return res.json({
           success: false,
-          message: 'No user found!',
+          message: 'No reviews found!',
         });
       }
   
       return res.json({
         success: true,
         message: 'History of user fetched successfully!',
-        data: existingUser.reviews  // Send the found history data
+        data: existing, // Send the found history data
       });
     } catch (error) {
-      console.error('Error fetching history:', error);
+      console.error('Error fetching history:', error.message); // Log the error message
       return res.json({
         success: false,
         message: 'Something went wrong while fetching the history!',
@@ -283,7 +285,5 @@ const getUserHistory = async (req, res) => {
     }
   };
   
-
-
 
 module.exports = { sendOtp, signUp, login,getAllUserDetails,getUserHistory}

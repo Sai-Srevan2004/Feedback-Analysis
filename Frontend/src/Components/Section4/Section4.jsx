@@ -21,7 +21,7 @@ const Section4 = ({ reviews }) => {
                                     <div className="summary-review">
                                         <h2>Summary of Reviews</h2>
                                         {/* <p>Average Rating: 4.5/5</p> */}
-                                        <p>Total Reviews: {0}</p>
+                                        {/* <p>Total Reviews: {0}</p> */}
                                         <p>
                                             <span style={{ color: '#01b5b5', fontStyle: 'bold', fontSize: '1.7vmax' }}>Summary: </span>
                                             {reviews.summary}
@@ -37,15 +37,15 @@ const Section4 = ({ reviews }) => {
                                 <div className="summary-grid">
                                     <div className="summary-item positive">
                                         <h3>Positives</h3>
-                                        <p>{reviews.positive} Positive Feedback</p>
+                                        <p>{reviews.positive || reviews.sentiments.Positive} Positive Feedback</p>
                                     </div>
                                     <div className="summary-item negative">
                                         <h3>Negatives</h3>
-                                        <p>{reviews.negative} Negative Feedback</p>
+                                        <p>{reviews.negative || reviews.sentiments.Negative} Negative Feedback</p>
                                     </div>
                                     <div className="summary-item overall">
                                         <h3>Overall</h3>
-                                        <p>{reviews.neutral} Neutral Feedback</p>
+                                        <p>{reviews.neutral || reviews.sentiments.Nuetral} Neutral Feedback</p>
                                     </div>
                                 </div>
                             </div>

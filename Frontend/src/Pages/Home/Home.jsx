@@ -50,7 +50,7 @@ const Home = () => {
                 <Section5></Section5>
                 <Section6></Section6>
                 <Section7></Section7>
-                
+                <Section8></Section8>
                 {
                     showLogin && <div className="login">
                         <Login setShowLogin={setShowLogin} setShowSignup={setShowSignup}></Login>

@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: center;
     background-color: black;
-    min-height: 100vh;
+    min-height: 82.3vh;
   }
   
   .profile-header {
@@ -68,7 +68,7 @@
   
   /* Responsive Design */
   @media screen and (max-width: 768px) {
-    .profile-info {
+    .profile-first{
       flex-direction: column;
       align-items: center;
     }
