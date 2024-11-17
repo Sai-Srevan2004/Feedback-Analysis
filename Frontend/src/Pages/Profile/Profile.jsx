@@ -1,23 +1,24 @@
+
+
+
 import React, { useEffect, useState } from 'react';
 import './Profile.css'; // Import CSS for styling
-import { useDispatch, useSelector } from 'react-redux';
-import { Logout } from '../../Slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast'; // Import toast for notifications
 
 const Profile = () => {
-  const token = useSelector((state) => state.auth.token); // Get token from Redux
-  const dispatch = useDispatch();
+  
   const navigate = useNavigate();
   
   const [userDetails, setUserDetails] = useState(null); // State to store user details
   const [loading, setLoading] = useState(true); // State to handle loading
+  const storedToken =  JSON.parse(localStorage.getItem('token')); // Use token from Redux or localStorage
+
 
   // Fetch user profile details from backend API
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const storedToken = token || localStorage.getItem('token'); // Use token from Redux or localStorage
 
       if (!storedToken) {
         return navigate('/'); // Redirect to login if token is not found
@@ -42,14 +43,9 @@ const Profile = () => {
     };
 
     fetchUserDetails();
-  }, [token, navigate]);
+  }, [storedToken, navigate]);
 
-  // Handle logout
-  const handleLogout = () => {
-    dispatch(Logout()); // Call the logout action
-    localStorage.removeItem('token'); // Remove token from localStorage
-    navigate('/'); // Redirect to home page
-  };
+  
 
   // If the data is still loading, show a loading indicator
   if (loading) {
@@ -63,30 +59,12 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <div className="profile-header">
-        <img
-          src={userDetails.image}
-          alt="Profile"
-          className="profile-image"
-        />
-        <h1>{userDetails.username}</h1>
-      </div>
-      <div className="profile-info">
-        <div className="profile-first">
-          <div className="profile-section">
-            <h2>Basic Information</h2>
-            <p>Email: {userDetails.email}</p>
-            <p>Your Role: {userDetails.role}</p>
-          </div>
-          <div className="profile-section">
-            <h2>Feedback Stats</h2>
-            <p>Total Feedbacks generated: {userDetails.reviews.length}</p>
-            <p>Date Joined: {userDetails.createdAt.split('T')[0].split('-').reverse().join('-')}</p>
-          </div>
-        </div>
-       
-          <button onClick={handleLogout}>Logout</button> {/* Logout Button */}
-        
+      <img className="profile-image" src={userDetails.image} alt={`${userDetails.username}'s profile`} />
+      <h2 className="profile-username">{userDetails.username}</h2>
+      <div className="profile-details">
+        <p><strong>Email:</strong> {userDetails.email}</p>
+        <p><strong>Role:</strong> {userDetails.role}</p>
+        <p><strong>Date Joined:</strong> {userDetails.createdAt.split('T')[0].split('-').reverse().join('-')}</p>
       </div>
     </div>
   );

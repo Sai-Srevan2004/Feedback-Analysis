@@ -44,6 +44,30 @@
 }
 
 
+.profile-icon {
+    position: relative; 
+}
+
+.hover-div {
+    background-color: #222;
+    height: 170px;
+    width: 120px;
+    position: absolute;
+    right: 15px;
+    top: 40px;
+    border-radius: 3px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-icon:hover .hover-div {
+    display: flex;
+}
+
+
 @media (max-width:768px) {
     .navbar ul{
        display: none;

@@ -2,19 +2,29 @@ import React from 'react';
 import './Nav.css';
 import { TiThMenu } from "react-icons/ti";
 import {Link} from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import { Logout } from '../../Slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {toast} from 'react-hot-toast'
 import { FaRegCircleUser } from "react-icons/fa6";
 const Nav = ({setShowLogin,setShowDnav}) => {
 
-  const token=useSelector((state)=>state.auth.token)
+  const token = useSelector((state) => state.auth.token); // Get token from Redux
+  const dispatch = useDispatch();
 
-  console.log(token)
+  
+  const handleLogout = () => {
+    dispatch(Logout()); // Call the logout action
+    localStorage.removeItem('token'); // Remove token from localStorage
+    toast.success("Logged out Succesfully!")
+    navigate('/'); // Redirect to home page
+  };
 
   return (
     <div className='navbar'>
       <span onClick={()=>setShowDnav(true)}><TiThMenu /></span>
+      <div className="logo"></div>
+
       <ul>
-        <Link to='/dashboard'><li>Dashboard</li></Link>
         <li><a href="#features">Features</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -22,7 +32,13 @@ const Nav = ({setShowLogin,setShowDnav}) => {
 
       </ul>
       {
-        token ? <Link to='/profile'><div style={{ fontSize: '35px',paddingRight:'100px' }}><FaRegCircleUser/></div></Link>:<button onClick={()=>setShowLogin(true)}>Login</button>
+        token ? <div className='profile-icon' style={{ fontSize: '35px',paddingRight:'100px'}}><FaRegCircleUser/>
+        <div className="hover-div">
+        <Link to='/profile'><p>Profile</p></Link>
+       <Link to='/dashboard'><p>Dashboard</p></Link>
+        <p style={{cursor:'pointer'}} onClick={handleLogout}>Logout</p>
+       </div>
+        </div>:<button onClick={()=>setShowLogin(true)}>Login</button>
 
       }
     </div>
