@@ -3,10 +3,10 @@
     display: flex; 
     min-height: 100vh; 
     color: #fff; 
-    padding: 20px; 
+    padding:100px 20px; 
     justify-content: space-between; 
+    background-color: black;
     flex-wrap: wrap;
-    padding-top: 100px;
   }
   
   .info-section {
