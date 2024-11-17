@@ -77,42 +77,58 @@ const storeHistory = async (req, res) => {
   
   
 
-const getHistory = async (req, res) => {
- 
-  try {
-    const { url } = req.body;  // Get the URL from the query parameters
-   
-    if (!url) {
+  const getHistory = async (req, res) => {
+    try {
+      const { url } = req.body; // Assume userId is sent in the request body
+
+      const userId=req.user.id
+  
+      if (!url) {
+        return res.json({
+          success: false,
+          message: 'URL and userId are required to fetch the history!',
+        });
+      }
+  
+      // Check if the history exists for the provided URL
+      const existingHistory = await History.findOne({ url });
+  
+      if (!existingHistory) {
+        return res.json({
+          success: false,
+          message: 'No history found for this URL!',
+        });
+      }
+  
+      // Find the user document
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.json({
+          success: false,
+          message: 'User not found!',
+        });
+      }
+  
+      // Check if the history ID is already in the reviews array
+      if (!user.reviews.includes(existingHistory._id)) {
+        user.reviews.push(existingHistory._id); // Add history ID to reviews array
+        await user.save(); // Save the updated user document
+      }
+  
+      return res.json({
+        success: true,
+        message: 'History fetched and added to user reviews successfully!',
+        data: existingHistory, // Send the found history data
+      });
+    } catch (error) {
+      console.error('Error fetching history:', error);
       return res.json({
         success: false,
-        message: 'URL is required to fetch the history!',
+        message: 'Something went wrong while fetching the history!',
       });
     }
-
-    // Check if the history exists for the provided URL
-    const existingHistory = await History.findOne({ url });
-
-
-    if (!existingHistory) {
-      return res.json({
-        success: false,
-        message: 'No history found for this URL!',
-      });
-    }
-
-    return res.json({
-      success: true,
-      message: 'History fetched successfully!',
-      data: existingHistory,  // Send the found history data
-    });
-  } catch (error) {
-    console.error('Error fetching history:', error);
-    return res.json({
-      success: false,
-      message: 'Something went wrong while fetching the history!',
-    });
-  }
-};
+  };
+  
 
 
 module.exports = { storeHistory,getHistory };
