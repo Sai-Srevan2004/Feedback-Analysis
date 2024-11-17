@@ -1,7 +1,6 @@
 
 .pricing-container {
     min-height: 100vh; 
-    background-color: black; 
     color: #fff; 
     padding: 20px; 
    flex-direction: column;

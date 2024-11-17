@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import './Profile.css'; // Import CSS for styling
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,Link} from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast'; // Import toast for notifications
 
@@ -66,6 +66,8 @@ const Profile = () => {
         <p><strong>Role:</strong> {userDetails.role}</p>
         <p><strong>Date Joined:</strong> {userDetails.createdAt.split('T')[0].split('-').reverse().join('-')}</p>
       </div>
+      <Link to='/'>      <button>Go Back</button>
+      </Link>
     </div>
   );
 };

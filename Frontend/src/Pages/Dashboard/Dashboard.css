@@ -23,10 +23,11 @@
   flex-direction: column;
   gap: 2rem;
   min-width: 250px; /* Ensures responsiveness */
+  max-height: 50vh;
 }
 
 .value {
-  font-size: 32px;
+  font-size: 5rem;
   font-weight: bold;
   margin-top: 10px;
   color: #34a853; /* Green text for the value */

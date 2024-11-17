@@ -4,7 +4,7 @@ import Caurosel from '../Caurosel/Caurosel'
 const Section1 = () => {
   return (
     <div className='section1 '>
-            <div className="landing-page">
+            <div className="landing-page" id='main'>
                 <div className="first">
                     <h1>Feedback Analysis</h1>
                     <p>Hey there! Whether you're a product seller looking to improve your offerings or a product buyer wanting to make informed purchasing decisions, our Feedback Analysis Tool is here to help!</p>

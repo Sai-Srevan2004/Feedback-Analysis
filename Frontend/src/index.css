@@ -4,11 +4,12 @@
     box-sizing: border-box;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     scroll-behavior: smooth;
-    color: #01b5b5;
+    /* color: #02c9c9; */
+    color: black;
 }
 
 button{
-    background-color:#01b5b5;
+    background-color:rgb(43, 42, 42);;
     color: black;
     font-size: 1.5vmax;
     border: none;

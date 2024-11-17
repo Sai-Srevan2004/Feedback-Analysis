@@ -47,8 +47,8 @@ const Dashboard = () => {
     <div className="dashboard-container">
       {/* Left Div */}
       <div className="left-div">
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h2>No of Feedback Generated</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',gap:'2rem' }}>
+          <h2>No of Feedback Generated <br /> So Far</h2>
           <p className="value">{feedbackHistory.length}</p>
         </div>
         <Link to='/'><button>Go back</button></Link>
@@ -65,7 +65,7 @@ const Dashboard = () => {
           
           <ul className="history-list">
             <div style={{padding:'10px',display:'flex',backgroundColor:'black'}}>
-              <p>Feedback Id</p>
+              <p style={{fontSize:'18px',fontWeight:'bold',color:'#02c9c9'}}>Feedback Id</p>
             </div>
             {feedbackHistory.map((z,i)=>{
 

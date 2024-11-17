@@ -5,8 +5,8 @@
     color: #fff; 
     padding: 20px; 
     justify-content: space-between; 
-    background-color: black;
     flex-wrap: wrap;
+    padding-top: 100px;
   }
   
   .info-section {

@@ -196,9 +196,7 @@ const login = async (req, res) => {
             role:isExist.role
         }
 
-        const token=jwt.sign(payLoad,process.env.JWT_SECRET,{
-            expiresIn:'2h'
-        })
+        const token=jwt.sign(payLoad,process.env.JWT_SECRET)
        
         //create cookie
         const options={

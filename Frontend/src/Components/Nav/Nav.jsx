@@ -22,8 +22,8 @@ const Nav = ({setShowLogin,setShowDnav}) => {
   return (
     <div className='navbar'>
       <span onClick={()=>setShowDnav(true)}><TiThMenu /></span>
-      <div className="logo"></div>
-
+         <a href="#main">      <div className="logo">LOGO</div>
+         </a>
       <ul>
         <li><a href="#features">Features</a></li>
         <li><a href="#pricing">Pricing</a></li>
@@ -32,7 +32,7 @@ const Nav = ({setShowLogin,setShowDnav}) => {
 
       </ul>
       {
-        token ? <div className='profile-icon' style={{ fontSize: '35px',paddingRight:'100px'}}><FaRegCircleUser/>
+        token ? <div className='profile-icon' style={{ fontSize: '45px',paddingRight:'100px'}}><FaRegCircleUser/>
         <div className="hover-div">
         <Link to='/profile'><p>Profile</p></Link>
        <Link to='/dashboard'><p>Dashboard</p></Link>
