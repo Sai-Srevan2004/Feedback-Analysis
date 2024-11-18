@@ -1,65 +1,66 @@
-import React from 'react'
-import './Section5.css'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';  // Import Axios
+
+import './Section5.css';
 
 const Section5 = () => {
-    const reviews = [
-        {
-          id: 1,
-          rating: 5,
-          description: 'Excellent service and great experience!',
-          user:'ram'
-        },
-        {
-          id: 2,
-          rating: 4,
-          description: 'Very satisfied with the quality of the product.',
-          user:'raj'
-        },
-        {
-          id: 3,
-          rating: 4,
-          description: 'Good value for money. Will buy again.',
-          user:'aditya'
-        },
-        {
-          id: 4,
-          rating: 5,
-          description: 'Amazing customer support and fast delivery!',
-          user:'akash'
-        },
-        {
-          id: 5,
-          rating: 3,
-          description: 'Average experience, could be improved.',
-          user:'kalyan'
-        },
-        {
-          id: 6,
-          rating: 2,
-          description: 'Not satisfied with the quality.',
-          user:'sai'
-        },
-      ];
-    
-      return (
-        <div className="reviews-container">
-          <h1 className="title">What Our Users Say</h1>
-          <p className='p'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita voluptate deleniti magni aperiam, in explicabo ab? Eos nostrum vero non?</p>
-          <div className="reviews-grid">
-            {reviews.map((review) => (
-              <div className="review-item" key={review.id}>
-                <div className="rating">Rating: {review.rating} ⭐</div>
-                <p className="description">{review.description}</p>
-                <div className="img">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRRb1fffaHZtRWNOwPGGcYWFoikhLcspKk6A&s" alt="" />
-                 <p>{review.user}</p>
+  const [reviews, setReviews] = useState([]);  // State to store reviews
+
+  useEffect(() => {
+    // Fetch reviews from the backend when the component mounts
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get('http://localhost:7000/api/users/all-reviews');
+        setReviews(response.data.reviews);  // Update state with fetched reviews
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
+
+    fetchReviews();  // Call the function to fetch reviews
+  }, []);  // Empty dependency array ensures the effect runs only once when the component mounts
+
+  // Function to render stars based on rating (one yellow star and one gray star)
+  const renderStars = (rating) => {
+    let stars = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < rating) {
+        stars.push(<span key={i} className="star filled">⭐</span>); // Yellow star for filled
+      }
+    }
+    return stars;
+  };
+
+  return (
+    <div className="reviews-container">
+      <h1 className="title">What Our Users Say</h1>
+      <p className="p">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita voluptate deleniti magni aperiam, in explicabo ab? Eos nostrum vero non?
+      </p>
+      <div className="reviews-grid">
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <div className="review-item" key={review._id}>
+               <div className="img">
+                <img src={review.userId.image} alt="User Profile" />
+                <div className="infoo">
+                  <p><b>{review.userId.username}</b></p>
+                  <p style={{fontSize:'14px'}}>{review.userId.email}</p>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
+              <p className="description">{review.review}</p>
+              <div className="rating">
+                {review.rating}.0
+                {renderStars(review.rating)} {/* Render the stars based on the rating */}
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No reviews available.</p>
+        )}
+      </div>
+    </div>
+  );
+};
 
-
-export default Section5
+export default Section5;

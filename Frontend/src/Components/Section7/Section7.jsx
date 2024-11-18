@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Section7.css';
+import {toast} from 'react-hot-toast'
 
 const Section7 = () => {
   // State to manage form data
@@ -23,6 +24,7 @@ const Section7 = () => {
     e.preventDefault();
     // Log form data to console
     console.log(formData);
+    toast.success("Form submitted succesfully!")
     setFormData({
       name: '',
       email: '',

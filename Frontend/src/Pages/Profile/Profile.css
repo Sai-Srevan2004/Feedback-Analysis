@@ -1,45 +1,104 @@
+/* Profile Section */
 .profile-container {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #121212; /* Dark background */
-  color: #ffffff; /* Light text for contrast */
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6); /* Deep shadow for dark mode */
   text-align: center;
-  transition: all 0.3s ease-in-out;
-}
-
-.profile-container:hover {
-  box-shadow: 0 8px 20px rgba(0, 255, 255, 0.3); /* Subtle glow effect */
+  margin: 20px auto;
+  max-width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #222;
 }
 
 .profile-image {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin-bottom: 15px;
-  border: 4px solid #4caf50; /* Green border for contrast */
-  transition: transform 0.3s ease-in-out;
-}
-
-.profile-image:hover {
-  transform: scale(1.05); /* Subtle zoom effect on hover */
 }
 
 .profile-username {
-  font-size: 24px;
-  margin: 10px 0;
-  color: #00d9ff; /* Cyan for username */
-  text-shadow: 0 1px 3px rgba(0, 217, 255, 0.5); /* Glow effect */
+  font-size: 1.8rem;
 }
-
+.profile-details
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+}
 
 .profile-details p {
-  font-size: 16px;
-  margin: 55px 0;
+  font-size: 1rem;
+  margin: 5px 0;
 }
 
-.profile-details strong {
-  color: #4caf50; /* Highlighted green for labels */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Review Form Section */
+.review-form-container {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.review-form {
+  width: 100%;
+  background-color: #222;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review-form h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #4caf50;
+}
+
+.review-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.review-form input,
+.review-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.review-form input:focus,
+.review-form textarea:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.review-form textarea {
+  resize: none;
+}
+
+.review-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.review-form button:hover {
+  background-color: #388e3c;
 }

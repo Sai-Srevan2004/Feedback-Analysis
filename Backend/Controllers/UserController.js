@@ -1,5 +1,6 @@
 const User = require("../Models/UserModel")
 const Otp = require("../Models/OtpModel")
+const Review=require('../Models/RatingsModel')
 const otpGenerator = require("otp-generator")
 const History =require('../Models/HistoryModel')
 const bcrypt=require('bcrypt')
@@ -282,6 +283,62 @@ const getUserHistory = async (req, res) => {
       });
     }
   };
+
+
+
+  const updateReview = async (req, res) => {
+    try {
+      const { rating, review } = req.body;
+  
+      // Validate input
+      if (!rating || !review) {
+        return res.json({ message: 'Rating and review are required.' });
+      }
+  
+      // Check if the user already has a review
+      const existingReview = await Review.findOne({ userId: req.user.id });
+  
+      if (existingReview) {
+        // If the user already has a review, update it
+        existingReview.rating = rating;
+        existingReview.review = review;
+  
+        const updatedReview = await existingReview.save(); // Save the updated review
+        return res.json({ message: 'Review updated successfully.', review: updatedReview });
+      } else {
+        // If no review exists, create a new one
+        const newReview = new Review({
+          userId: req.user.id, // User ID from the token
+          rating,
+          review,
+        });
+  
+        const savedReview = await newReview.save(); // Save the new review
+        return res.json({ message: 'Review added successfully.', review: savedReview });
+      }
+    } catch (error) {
+      console.error('Error adding or updating review:', error);
+      res.json({ message: 'Failed to add or update review.' });
+    }
+  };
   
 
-module.exports = { sendOtp, signUp, login,getAllUserDetails,getUserHistory}
+
+  const getAllReviews = async (req, res) => {
+    try {
+      // Fetch reviews and populate userId, but exclude the password field
+      const allReviews = await Review.find()
+        .populate('userId', 'username email image')  // Include username, email, and image
+        .exec();  // Use exec() to execute the query
+      
+      // Respond with reviews
+      res.json({ reviews: allReviews });
+    } catch (error) {
+      console.error('Error fetching all reviews:', error);
+      res.status(500).json({ message: 'Failed to fetch all reviews.' });  // Return 500 error on failure
+    }
+  };
+
+  
+
+module.exports = { sendOtp, signUp, login,getAllUserDetails,getUserHistory,getAllReviews,updateReview}
