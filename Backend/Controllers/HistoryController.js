@@ -38,10 +38,7 @@ const storeHistory = async (req, res) => {
     const { summary, keywords, sentiments, get_reviews } = reviews;
     const { positive_keywords, negative_keywords } = keywords; // Extract keywords
     const { Positive, Negative, Nuetral } = sentiments;
-    const { rating } = get_reviews;
-
-    // Calculate the average rating
-    const avgRating = (rating.reduce((acc, curr) => acc + curr, 0) / rating.length).toFixed(1);
+    const { avgRating } = get_reviews;
 
     // Create a new history record with keywords
     const HistoryUser = await History.create({

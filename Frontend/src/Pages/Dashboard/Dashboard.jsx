@@ -51,7 +51,6 @@ const Dashboard = () => {
           <h2>No of Feedback Generated <br /> So Far</h2>
           <p className="value">{feedbackHistory.length}</p>
         </div>
-        <Link to='/'><button>Go back</button></Link>
       </div>
 
       {/* Right Div */}

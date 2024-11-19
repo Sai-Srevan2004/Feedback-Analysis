@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Section4.css';
 import Loader from '../Loader/Loader'
 
-const Section4 = ({ reviews }) => {
-  const [loading, setLoading] = useState(true);
+const Section4 = ({ reviews,loading,setLoading }) => {
 
   console.log(reviews)
 
@@ -22,7 +21,6 @@ const Section4 = ({ reviews }) => {
     get_reviews: { avgRating } ={}
   } = reviews;
 
-  
 
   return (
     <div id="review" className="section4-container">
@@ -38,13 +36,13 @@ const Section4 = ({ reviews }) => {
             <h3>Positives Neutral Negatives</h3>
             <div className="sentiment-box-wrapper">
               <div className="sentiment-box positive">
-                <span>{Positive }</span>
+                <span>{(Positive/(Positive+Negative+Nuetral))*100 }%</span>
               </div>
               <div className="sentiment-box neutral">
-                <span>{Nuetral }</span>
+                <span>{(Nuetral/(Positive+Negative+Nuetral))*100 }%</span>
               </div>
               <div className="sentiment-box negative">
-                <span>{Negative}</span>
+                <span>{(Negative/(Positive+Negative+Nuetral))*100 }%</span>
               </div>
             </div>
           </div>
@@ -69,7 +67,7 @@ const Section4 = ({ reviews }) => {
         <div className="section4-rating">
           <h3>Average Rating</h3>
           <div className="rating-value">
-            <span>{avgRating} / 5</span>
+            <span>{avgRating || reviews.get_reviews.rating.reduce((acc, curr) => acc + curr, 0) / reviews.get_reviews.rating.length.toFixed(1) } / 5</span>
           </div>
         </div>
       </div>

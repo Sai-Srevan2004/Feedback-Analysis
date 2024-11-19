@@ -65,13 +65,13 @@ const History = () => {
               <h3>Positives Neutral Negatives</h3>
               <div className="sentiment-box-wrapper">
                 <div className="sentiment-box positive">
-                  <span>{Positive}</span>
+                  <span>{(Positive/(Positive+Negative+Nuetral))*100 }%</span>
                 </div>
                 <div className="sentiment-box neutral">
-                  <span>{Nuetral}</span>
+                  <span>{(Nuetral/(Positive+Negative+Nuetral))*100 }%</span>
                 </div>
                 <div className="sentiment-box negative">
-                  <span>{Negative}</span>
+                  <span>{(Negative/(Positive+Negative+Nuetral))*100 }%</span>
                 </div>
               </div>
             </div>

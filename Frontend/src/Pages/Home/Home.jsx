@@ -20,6 +20,7 @@ import Dropnav from '../../Components/Dropnav/Dropnav'
 const Home = () => {
     const context = useOutletContext()
     console.log(context)
+    const [loading, setLoading] = useState(true);
 
     const [showReview,setShowReview]=useState(false)
     const [showLogin,setShowLogin]=useState(false)
@@ -29,7 +30,7 @@ const Home = () => {
   const [showSection4, setShowSection4] = useState(false); // State to control Section3 visibility
 
 
-
+console.log("home:",reviews)
 
     return (
         <>
@@ -45,8 +46,8 @@ const Home = () => {
                 <Section0></Section0>
 
                 <Section2></Section2>
-                <Section3 setShowSection4={setShowSection4} setReviews={setReviews}></Section3>
-                {showSection4 && <Section4 showReview={showReview} reviews={reviews}></Section4>}
+                <Section3 setShowSection4={setShowSection4} setReviews={setReviews} setLoading={setLoading}></Section3>
+                {showSection4 && <Section4 showReview={showReview} reviews={reviews} loading={loading} setLoading={setLoading}></Section4>}
                 <Section6></Section6>
                 <Section7></Section7>
                 <Section5></Section5>

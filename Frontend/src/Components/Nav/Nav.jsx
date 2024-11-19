@@ -16,7 +16,6 @@ const Nav = ({setShowLogin,setShowDnav}) => {
     dispatch(Logout()); // Call the logout action
     localStorage.removeItem('token'); // Remove token from localStorage
     toast.success("Logged out Succesfully!")
-    navigate('/'); // Redirect to home page
   };
 
   return (

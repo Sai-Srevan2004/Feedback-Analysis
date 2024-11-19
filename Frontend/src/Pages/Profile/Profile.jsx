@@ -93,9 +93,7 @@ const Profile = () => {
             <strong>Date Joined:</strong> {userDetails.createdAt.split('T')[0].split('-').reverse().join('-')}
           </p>
         </div>
-        <Link to="/">
-          <button style={{marginTop:'20px'}}>Go Back</button>
-        </Link>
+        
       </div>
 
       {/* Form Container */}

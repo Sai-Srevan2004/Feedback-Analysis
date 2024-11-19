@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Section3.css';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
-const Section3 = ({ setShowSection4, setReviews }) => {
+const Section3 = ({ setShowSection4, setReviews ,setLoading}) => {
   const [url, setUrl] = useState('');
   const [triggerApi, setTriggerApi] = useState(false);
-  const navigate = useNavigate();
 
   const fetchReviews = async () => {
     if (triggerApi && url) {
@@ -48,10 +46,9 @@ const Section3 = ({ setShowSection4, setReviews }) => {
                 Nuetral: reviewData.sentiments.Nuetral,
               },
               get_reviews: {
-                avgRating: reviewData.get_reviews.rating.reduce((acc, curr) => acc + curr, 0) / rating.length.toFixed(1),
+                avgRating: reviewData.get_reviews.rating.reduce((acc, curr) => acc + curr, 0) / reviewData.get_reviews.rating.length.toFixed(1),
               },
             };
-
 
             await axios.post(
               'http://localhost:7000/api/users/history',
@@ -72,36 +69,36 @@ const Section3 = ({ setShowSection4, setReviews }) => {
         window.location.hash = "#url";
         setShowSection4(false);
       } finally {
-        setTriggerApi(false);
-        setUrl('');
+        setTriggerApi(false); // Reset triggerApi to false after fetching
+        setUrl(''); // Reset the URL after fetching
       }
     }
   };
 
   useEffect(() => {
-    fetchReviews();
-  }, [triggerApi]);
+    if (triggerApi) {
+      fetchReviews(); // Trigger the API fetch when triggerApi is true
+    }
+  }, [triggerApi]); // Dependency array for triggerApi
 
   const reviewsGet = () => {
     const token = localStorage.getItem('token');
 
     if (!token) {
       toast('Please Login to proceed!', { icon: '⚠️' });
-      navigate('/');
       return;
     }
 
-    if (!url) {
+    else if (!url) {
       toast('URL is required!', { icon: '⚠️' });
-      setShowSection4(false);
+      setReviews('')
       return;
     }
-
-    setReviews('');
-    setShowSection4(true);
-    setTriggerApi(true);
-
-   
+    else{
+      setLoading(true)
+    setShowSection4(true); // Show section 4
+    setTriggerApi(true); // Trigger the API call
+    }
   };
 
   return (
@@ -115,7 +112,7 @@ const Section3 = ({ setShowSection4, setReviews }) => {
             value={url}
             required
             type="url"
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => setUrl(e.target.value)} // Update URL state
           />
           <span>Paste your URL here</span>
           <i></i>
