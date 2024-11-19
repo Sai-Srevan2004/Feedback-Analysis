@@ -12,13 +12,13 @@ const History = () => {
   useEffect(() => {
     if (!storedToken) {
       // Redirect if there's no token
-      navigate('/');
+      navigate("/");
       return;
     }
 
     if (!id) {
       // Redirect if the id is missing
-      navigate('/error');
+      navigate("/error");
       return;
     }
 
@@ -43,55 +43,71 @@ const History = () => {
     fetchHistory();
   }, [id, storedToken, navigate]);
 
+  // Ensure historyData is defined before destructuring
+  const {
+    summary = "No summary available",
+    keywords: { positive_keywords = [], negative_keywords = [] } = {},
+    sentiments: { Positive = 0, Negative = 0, Nuetral = 0 } = {},
+    avgRating
+  } = historyData || {}; // Provide default values if historyData is null
+
   return (
-    <div style={{ minHeight: "82.5vh" }}>
+    <div style={{ minHeight: "82.5vh",padding:'20px' }}>
       {historyData ? (
-        <div className="summary-container">
-          <div className="left-column">
-            <div className="row">
-              <div className="summary-review">
-                <p>
-                  <span
-                    style={{
-                      color: "#01b5b5",
-                      fontWeight: "bold",
-                      fontSize: "1.7vmax",
-                    }}
-                  >
-                    Summary:{" "}
-                  </span>
-                  {historyData.summary}
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "5px",
-                  }}
-                >
-                  Keywords: {2}
+        <>
+          <div className="section4-summary">
+            <h3>Summary</h3>
+            <p>{summary}</p>
+          </div>
+
+          <div className="section4-details">
+            <div className="section4-sentiments">
+              <h3>Positives Neutral Negatives</h3>
+              <div className="sentiment-box-wrapper">
+                <div className="sentiment-box positive">
+                  <span>{Positive}</span>
+                </div>
+                <div className="sentiment-box neutral">
+                  <span>{Nuetral}</span>
+                </div>
+                <div className="sentiment-box negative">
+                  <span>{Negative}</span>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="right-column">
-            <div className="summary-grid">
-              <div className="summary-item positive">
-                <h3>Positives</h3>
-                <p>{historyData.positive} Positive Feedback</p>
+
+            <div className="section4-pros-cons">
+              <div className="pros">
+                <h3>Pros</h3>
+                {positive_keywords.length > 0
+                  ? positive_keywords.map((keyword, index) => (
+                      <span key={index} className="keyword-item">
+                        {keyword}
+                      </span>
+                    ))
+                  : "No pros available"}
               </div>
-              <div className="summary-item negative">
-                <h3>Negatives</h3>
-                <p>{historyData.negative} Negative Feedback</p>
-              </div>
-              <div className="summary-item overall">
-                <h3>Overall</h3>
-                <p>{historyData.neutral} Neutral Feedback</p>
+
+              <div className="cons">
+                <h3>Cons</h3>
+                {negative_keywords.length > 0
+                  ? negative_keywords.map((keyword, index) => (
+                      <span key={index} className="keyword-item">
+                        {keyword}
+                      </span>
+                    ))
+                  : "No cons available"}
               </div>
             </div>
           </div>
-        </div>
+
+          <div className="section4-rating">
+            <h3>Average Rating</h3>
+            <div className="rating-value">
+              <span>{avgRating} / 5</span>
+            </div>
+          </div>
+        </>
       ) : (
         <p>Loading...</p>
       )}

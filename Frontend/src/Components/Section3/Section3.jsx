@@ -93,6 +93,7 @@ const Section3 = ({ setShowSection4, setReviews }) => {
 
     if (!url) {
       toast('URL is required!', { icon: '⚠️' });
+      setShowSection4(false);
       return;
     }
 
@@ -100,11 +101,7 @@ const Section3 = ({ setShowSection4, setReviews }) => {
     setShowSection4(true);
     setTriggerApi(true);
 
-    // Scroll to the review section after it's made visible
-    const reviewSection = document.getElementById("review");
-    if (reviewSection) {
-      reviewSection.scrollIntoView({ behavior: "smooth" });
-    }
+   
   };
 
   return (

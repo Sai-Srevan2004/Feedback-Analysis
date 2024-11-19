@@ -13,27 +13,21 @@ const Section4 = ({ reviews }) => {
     }
   }, [reviews]);
 
-  // Early return if reviews or its necessary properties are not available
-  if (loading || !reviews) {
-    return (
-      <div className="loader">
-        <Loader/>
-      </div>
-    );
-  }
+  
 
   const {
     summary,
     keywords: { positive_keywords, negative_keywords } = {},  // Default empty object if undefined
     sentiments: { Positive, Negative, Nuetral } = {},  // Default empty object if undefined
-    get_reviews: { avgRating } 
+    get_reviews: { avgRating } ={}
   } = reviews;
 
   
 
   return (
     <div id="review" className="section4-container">
-      <div className="section4-content">
+      {
+        loading ?<Loader/>:<div className="section4-content">
         <div className="section4-summary">
           <h3>Summary</h3>
           <p>{summary || "No summary available"}</p>
@@ -75,10 +69,11 @@ const Section4 = ({ reviews }) => {
         <div className="section4-rating">
           <h3>Average Rating</h3>
           <div className="rating-value">
-            <span>{avgRating || rating} / 5</span>
+            <span>{avgRating} / 5</span>
           </div>
         </div>
       </div>
+      }
     </div>
   );
 };

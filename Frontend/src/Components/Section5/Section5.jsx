@@ -35,7 +35,7 @@ const Section5 = () => {
     <div className="reviews-container">
       <h1 className="title">What Our Users Say</h1>
       <p className="p">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita voluptate deleniti magni aperiam, in explicabo ab? Eos nostrum vero non?
+      Hear what our users have to say about how our feedback analysis tool has transformed their decision-making and improved their experiences!
       </p>
       <div className="reviews-grid">
         {reviews.length > 0 ? (
